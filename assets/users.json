@@ -1,0 +1,12 @@
+
+  {
+        "code":200,
+        "message":"Success",
+        "details": {
+            "agentNumber":"250710000811",
+            "agentName":"Agent TestIT",
+            "agentId":1404,
+            "client_enrolled":0,
+            "float":"108,774.00 FRW"
+        }
+  }

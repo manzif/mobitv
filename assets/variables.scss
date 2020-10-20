@@ -1,0 +1,24 @@
+// Ref: https://github.com/nuxt-community/vuetify-module#customvariables
+//
+// The variables you want to modify
+// $font-size-root: 20px;
+@import '~vuetify/src/styles/styles.sass';
+$material-light: map-merge($material-light, (
+  'background': var(--v-background-base, map-get($material-light, 'background')) !important,
+));
+$material-dark: map-merge($material-dark, (
+  'background': var(--v-background-base, map-get($material-dark, 'background')) !important,
+));
+
+
+$body-font-family: 'Open Sans', sans-serif;
+$heading-font-family :'Open Sans', sans-serif;
+
+
+$font-size-root: 14px;
+
+$btn-border-radius: 0px;
+
+// If you need to extend Vuetify SASS lists
+$material-dark: ( cards: var(--v-background-base, map-get($material-dark, 'background')) !important );
+// @import '~vuetify/src/styles/styles.sass';
