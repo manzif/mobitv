@@ -2,7 +2,7 @@
   <v-item-group active-class="secondary">
     <div>
       <v-row justify="center">
-        <v-col cols="12" md="5" sm="6">
+        <v-col cols="12" md="4" sm="6">
           <v-item>
             <v-container grid-list-md>
               <div id="pdfDom">
@@ -157,50 +157,22 @@ export default {
         return e
       }
     },
-    generatePdf() {
-      console.log('\n\n\n\n\n', 'ndahari')
-      if (process.client) {
-        /* eslint-disable new-cap */
-        const doc = new JsPDF('p', 'pt', 'A4')
-        const margins = {
-          top: 80,
-          bottom: 60,
-          left: 40,
-          width: 522
-        }
-
-        doc.fromHTML(this.$refs.content, margins.left, margins.top, {
-          width: margins.width
-        })
-        // doc.text('Hello world!', 10, 10)
-
-        doc.save('test.pdf')
-      }
-    },
     getPdf(title, isShowPreviewFullTime) {
-      const margins = {
-        top: 10,
-        bottom: 60,
-        left: 10
-      }
+      // const margins = {
+      //   top: 12,
+      //   bottom: 60,
+      //   left: 0
+      // }
       html2Canvas(document.querySelector('#pdfDom'), {
         allowTaint: false,
         useCORS: true,
-        x: 370,
-        y: 80
+        backgroundColor: 'red'
       }).then(function(canvas) {
-        const pageWidth = 295.28
-        const pageHeight = canvas.height / (canvas.width / 292.28)
-        const pageData = canvas.toDataURL('image/jpeg', 1.0)
-        const PDF = new JsPDF('', 'pt', [pageWidth, pageHeight])
-        PDF.addImage(
-          pageData,
-          'JPEG',
-          margins.left,
-          margins.top,
-          pageWidth,
-          pageHeight
-        )
+        const pageHeight = 370
+        const pageWidth = 320
+        const pageData = canvas.toDataURL('image/jpeg')
+        const PDF = new JsPDF('', 'pt', [400, 300])
+        PDF.addImage(pageData, 'JPEG', 0, 0, pageHeight, pageWidth)
         PDF.save(title + '.pdf')
       })
     }
