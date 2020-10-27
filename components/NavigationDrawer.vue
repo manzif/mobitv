@@ -7,11 +7,11 @@
       app
     >
       <v-list-item class="px-2">
-        <v-avatar size="55">
+        <v-avatar size="45">
           <img src="~/static/images/defaultProfile.png" alt="John" />
         </v-avatar>
 
-        <v-list-item-title>@{{ userInfo.details.agentName }}</v-list-item-title>
+        <v-list-item-title>@{{ authUser.agentName }}</v-list-item-title>
 
         <v-btn @click.stop="mini = !mini" icon>
           <v-icon>mdi-chevron-left</v-icon>
@@ -35,7 +35,7 @@
             <v-list-item-title>RRA</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/create-alectricity">
+        <v-list-item to="/create-electricity">
           <v-list-item-icon>
             <v-icon>mdi-fire-hydrant</v-icon>
           </v-list-item-icon>

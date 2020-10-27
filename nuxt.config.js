@@ -18,7 +18,7 @@ module.exports = {
       }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/images/favicon.ico' },
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Open+Sans'
@@ -66,22 +66,23 @@ module.exports = {
     ['vuetify-dialog/nuxt', { property: '$dialog' }]
   ],
 
-  // auth: {
-  //   strategies: {
-  //     local: {
-  //       endpoints: {
-  //         login: {
-  //           url: 'http://tests.mcash.rw/mobtiv/login.php',
-  //           method: 'get'
-  //         },
-  //         logout: false,
-  //         user: false
-  //       },
-  //       autoFetchUser: false
-  //     }
-  //   },
-  //   plugins: [{ src: '~/plugins/axios', ssr: true }, '~/plugins/auth.js']
-  // },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url:
+              'http://tests.mcash.rw/bio-api/standalone/stand_agent_login.php',
+            method: 'get'
+          },
+          logout: false,
+          user: false
+        },
+        autoFetchUser: false
+      }
+    },
+    plugins: [{ src: '~/plugins/axios', ssr: true }, '~/plugins/auth.js']
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

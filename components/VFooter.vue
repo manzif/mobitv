@@ -1,13 +1,15 @@
 <template>
   <v-footer :fixed="fixed" app>
-    <span class="caption">&copy; 2020 Kare</span>
+    <span class="subtitle-1">&copy; 2020 Mobicash</span>
     <v-spacer />
-    <span class="font-weight-thin caption">V1.0</span>
+    <a href="https://www.mobicashonline.com/" class="alink" target="_blank">
+      <span class="font-weight-medium subtitle-1">Developed by Mobicash</span>
+    </a>
     <v-spacer />
 
-    <a href="https://www.transax.rw" class="alink">
+    <!-- <a href="https://www.transax.rw" class="alink">
       <span class="font-weight-thin caption">Developed by Transax</span>
-    </a>
+    </a> -->
   </v-footer>
 </template>
 

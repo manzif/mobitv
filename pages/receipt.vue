@@ -165,12 +165,11 @@ export default {
       // }
       html2Canvas(document.querySelector('#pdfDom'), {
         allowTaint: false,
-        useCORS: true,
-        backgroundColor: 'red'
+        useCORS: true
       }).then(function(canvas) {
-        const pageHeight = 370
-        const pageWidth = 320
-        const pageData = canvas.toDataURL('image/jpeg')
+        const pageHeight = 380
+        const pageWidth = 340
+        const pageData = canvas.toDataURL('image/jpeg', 1.0)
         const PDF = new JsPDF('', 'pt', [400, 300])
         PDF.addImage(pageData, 'JPEG', 0, 0, pageHeight, pageWidth)
         PDF.save(title + '.pdf')

@@ -17,20 +17,13 @@
               </v-layout>
               <div class="line" />
               <div class="mb-5"></div>
-              <v-layout v-if="errorMessage">
-                <div class="mb-3 text-center">
-                  <v-card class="pa-2">
-                    <h4 class="red--text">{{ errorMessage }}</h4>
-                  </v-card>
-                </div>
-              </v-layout>
               <v-form v-model="isFormValid" :lazy-validation="lazy">
                 <v-card-text class="px-0">
                   <v-text-field
-                    v-model="username"
+                    v-model="phoneNumber"
                     :rules="usernameRules"
                     name="login"
-                    label="Username"
+                    label="phoneNumber"
                     type="text"
                     outlined
                     dense
@@ -50,7 +43,15 @@
                   />
                 </v-card-text>
                 <v-card-actions class="px-0">
-                  <v-btn to="/" large block color="primary mb-1">Submit</v-btn>
+                  <v-btn
+                    :loading="isLoading"
+                    :disabled="isDisabled"
+                    @click="login"
+                    large
+                    block
+                    color="primary mb-1"
+                    >Submit</v-btn
+                  >
                 </v-card-actions>
               </v-form>
             </div>
@@ -66,7 +67,7 @@ export default {
   layout: 'register',
   data() {
     return {
-      username: '',
+      phoneNumber: '',
       myImage: require('@/static/images/mobich.png'),
       isFormValid: false,
       lazy: false,
@@ -80,10 +81,7 @@ export default {
     ...mapGetters({
       isLoading: 'helper/isLoading',
       isDisabled: 'helper/isDisabled'
-    }),
-    errorMessage() {
-      return this.$store.getters['users/errorMessage']
-    }
+    })
   },
   methods: {
     async login() {
@@ -91,7 +89,7 @@ export default {
       this.$store.dispatch('helper/disabling')
       try {
         await this.$store.dispatch('users/login', {
-          username: this.username,
+          phoneNumber: this.phoneNumber,
           pin: this.pin
         })
         this.email = null

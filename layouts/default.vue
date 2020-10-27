@@ -15,7 +15,7 @@
 
         <v-spacer />
 
-        <span>{{ userInfo.details.agentName }}</span>
+        <span>{{ authUser.agentName }}</span>
         <v-badge avatar bordered overlap>
           <template v-slot:badge>
             <v-avatar>
@@ -79,9 +79,9 @@
       </v-app-bar>
       <NavigationDrawer />
     </nav>
-    <v-content>
+    <v-main>
       <nuxt />
-    </v-content>
+    </v-main>
     <VFooter />
   </v-app>
 </template>
@@ -119,6 +119,7 @@ export default {
       title: null
     }
   },
+  middleware: ['auth', 'check-auth'],
   computed: {
     authUser() {
       return this.$store.getters['users/loggedInUser']
