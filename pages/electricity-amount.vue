@@ -6,10 +6,8 @@
           <h2 class="pb-1" color="#0087ff">Electricity Amount.</h2>
           <div class="line"></div>
           <h4 class="my-6">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut,
-            suscipit a. Debitis placeat asperiores corrupti dolores? Vel
-            voluptatibus aut animi, quas doloribus, itaque molestiae ipsum
-            officia at natus mollitia iure?
+            Please check your names and the meter number. If they are correct
+            provide the amount and proceed. Thanks!
           </h4>
           <!-- <v-btn class="" color="#0087ff" outlined to="/view-apps" nuxt
             ><v-icon>mdi-play</v-icon> See all applications</v-btn
@@ -26,7 +24,7 @@
             <v-flex xs12 md12>
               <v-text-field
                 v-model="name"
-                :label="meterInfo.name"
+                :label="clientName"
                 required
                 dense
                 disabled
@@ -36,7 +34,7 @@
             </v-flex>
             <v-flex xs12 md12>
               <v-text-field
-                :label="meterInfo.meter"
+                :label="meterNumber"
                 required
                 disabled
                 dense
@@ -46,7 +44,7 @@
             </v-flex>
             <v-flex xs12 md12>
               <v-text-field
-                v-model="title"
+                v-model="amount"
                 :rules="[(v) => !!v || 'Amount is required']"
                 label="Amount"
                 required
@@ -69,11 +67,10 @@ import meterData from '@/assets/meteramount.json'
 export default {
   data() {
     return {
-      title: '',
-      userName: '',
+      clientName: '',
+      amount: '',
       isFormValid: false,
-      description: '',
-      userId: ''
+      meterNumber: ''
     }
   },
   computed: {
@@ -85,28 +82,17 @@ export default {
     },
     meterInfo() {
       return meterData
+    },
+    infoMeter() {
+      return this.$store.getters['electricity/userMeter']
     }
   },
-  methods: {
-    async createApp() {
-      this.$store.dispatch('helper/loading')
-      this.$store.dispatch('helper/disabling')
-      try {
-        await this.$store.dispatch('app/createApp', {
-          title: this.title,
-          userName: this.userName,
-          userId: this.userId,
-          description: this.description
-        })
-        this.$store.dispatch('helper/loading')
-        this.$store.dispatch('helper/disabling')
-        this.title = null
-        this.userId = null
-        this.userName = null
-        this.description = null
-      } catch (e) {
-        return e
-      }
+  created() {
+    if (this.$route.params.clientName) {
+      this.clientName = this.$route.params.clientName
+    }
+    if (this.$route.params.meterNumber) {
+      this.meterNumber = this.$route.params.meterNumber
     }
   }
 }

@@ -25,7 +25,7 @@
             </v-flex>
             <v-flex xs12 md12>
               <v-text-field
-                v-model="title"
+                v-model="meterNumber"
                 :rules="[(v) => !!v || 'Meter Number is required']"
                 label="Meter Number"
                 required
@@ -35,7 +35,12 @@
               ></v-text-field>
             </v-flex>
             <v-flex xs12 md12>
-              <v-btn to="/electricity-amount" color="primary" block
+              <v-btn
+                :loading="isLoading"
+                :disabled="isDisabled"
+                @click="getElectricity"
+                color="primary"
+                block
                 >Submit</v-btn
               >
             </v-flex>
@@ -49,11 +54,9 @@
 export default {
   data() {
     return {
-      title: '',
-      userName: '',
+      meterNumber: '',
       isFormValid: false,
-      description: '',
-      userId: ''
+      lazy: false
     }
   },
   computed: {
@@ -65,15 +68,12 @@ export default {
     }
   },
   methods: {
-    async createApp() {
+    async getElectricity() {
       this.$store.dispatch('helper/loading')
       this.$store.dispatch('helper/disabling')
       try {
-        await this.$store.dispatch('app/createApp', {
-          title: this.title,
-          userName: this.userName,
-          userId: this.userId,
-          description: this.description
+        await this.$store.dispatch('electricity/getElectricity', {
+          meterNumber: this.meterNumber
         })
         this.$store.dispatch('helper/loading')
         this.$store.dispatch('helper/disabling')
