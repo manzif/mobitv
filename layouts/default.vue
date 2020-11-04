@@ -15,7 +15,7 @@
 
         <v-spacer />
 
-        <span>{{ authUser.agentName }}</span>
+        <span>{{ userInfo.details.agentName }}</span>
         <v-badge avatar bordered overlap>
           <template v-slot:badge>
             <v-avatar>
@@ -35,46 +35,6 @@
             </v-btn>
           </template>
           <UserDropdown />
-          <v-list shaped dense>
-            <v-subheader>App settings</v-subheader>
-            <v-list-item-group color="primary">
-              <v-list-item @click.stop="drawer = !drawer">
-                <v-list-item-title>
-                  <v-app-bar-nav-icon />
-                  Open/Collapse
-                </v-list-item-title>
-              </v-list-item>
-
-              <v-list-item @click.stop="miniVariant = !miniVariant">
-                <v-list-item-title>
-                  <v-btn icon>
-                    <v-icon
-                      >mdi-{{
-                        `chevron-${miniVariant ? 'right' : 'left'}`
-                      }}</v-icon
-                    >
-                  </v-btn>
-                  Open/Collapse
-                </v-list-item-title>
-              </v-list-item>
-              <v-list-item @click.stop="clipped = !clipped">
-                <v-list-item-title>
-                  <v-btn icon>
-                    <v-icon>mdi-application</v-icon>
-                  </v-btn>
-                  Open/Collapse
-                </v-list-item-title>
-              </v-list-item>
-              <v-list-item @click.stop="fixed = !fixed">
-                <v-list-item-title>
-                  <v-btn icon>
-                    <v-icon>mdi-minus</v-icon>
-                  </v-btn>
-                  Open/Collapse
-                </v-list-item-title>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
         </v-menu>
       </v-app-bar>
       <NavigationDrawer />
@@ -119,7 +79,7 @@ export default {
       title: null
     }
   },
-  middleware: ['auth', 'check-auth'],
+  middleware: ['check-auth'],
   computed: {
     authUser() {
       return this.$store.getters['users/loggedInUser']

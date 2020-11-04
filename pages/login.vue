@@ -43,13 +43,7 @@
                   />
                 </v-card-text>
                 <v-card-actions class="px-0">
-                  <v-btn
-                    :loading="isLoading"
-                    :disabled="isDisabled"
-                    @click="login"
-                    large
-                    block
-                    color="primary mb-1"
+                  <v-btn @click="goToAction" block color="primary mb-1"
                     >Submit</v-btn
                   >
                 </v-card-actions>
@@ -100,6 +94,11 @@ export default {
         // TODO: remove this log
         return e
       }
+    },
+    goToAction() {
+      this.$router.push({
+        name: '/'
+      })
     }
   }
 }
@@ -113,7 +112,7 @@ export default {
 }
 .line {
   width: 63px;
-  border-bottom: 5px solid #0087ff;
+  border-bottom: 5px solid #6c757d;
   position: absolute;
 }
 </style>

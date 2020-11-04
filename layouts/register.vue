@@ -1,13 +1,47 @@
 <template>
-  <v-app id="register">
+  <v-app>
+    <nav>
+      <v-app-bar color="#ff8c00" fixed app light flat>
+        <v-spacer />
+
+        <nuxt-link to="/"
+          ><v-img
+            height="50px"
+            width="150px"
+            contain
+            src="/images/mobich.png"
+          ></v-img
+        ></nuxt-link>
+
+        <v-spacer />
+
+        <!-- <span>Manzi</span>
+        <v-badge avatar bordered overlap>
+          <template v-slot:badge>
+            <v-avatar>
+              <span>1</span>
+            </v-avatar>
+          </template>
+
+          <v-avatar size="35">
+            <v-img src="/images/profile.svg"></v-img>
+          </v-avatar>
+        </v-badge> -->
+      </v-app-bar>
+    </nav>
     <nuxt />
+    <RegisterFooter />
   </v-app>
 </template>
 
 <script>
 /* eslint-disable no-console */
 import { mapGetters } from 'vuex'
+import RegisterFooter from '@/components/RegisterFooter'
 export default {
+  components: {
+    RegisterFooter
+  },
   data() {
     return {}
   },
