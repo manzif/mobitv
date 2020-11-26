@@ -20,10 +20,10 @@
               <v-form v-model="isFormValid" :lazy-validation="lazy">
                 <v-card-text class="px-0">
                   <v-text-field
-                    v-model="phoneNumber"
+                    v-model="principal"
                     :rules="usernameRules"
                     name="login"
-                    label="phoneNumber"
+                    label="principal"
                     type="text"
                     outlined
                     dense
@@ -43,7 +43,12 @@
                   />
                 </v-card-text>
                 <v-card-actions class="px-0">
-                  <v-btn @click="goToAction" block color="primary mb-1"
+                  <v-btn
+                    @click="login"
+                    :loading="isLoading"
+                    :disabled="!isFormValid"
+                    block
+                    color="primary mb-1"
                     >Submit</v-btn
                   >
                 </v-card-actions>
@@ -61,7 +66,7 @@ export default {
   layout: 'register',
   data() {
     return {
-      phoneNumber: '',
+      principal: '',
       myImage: require('@/static/images/mobich.png'),
       isFormValid: false,
       lazy: false,
@@ -83,11 +88,11 @@ export default {
       this.$store.dispatch('helper/disabling')
       try {
         await this.$store.dispatch('users/login', {
-          phoneNumber: this.phoneNumber,
+          principal: this.principal,
           pin: this.pin
         })
-        this.email = null
-        this.password = null
+        this.principal = null
+        this.pin = null
         this.$store.dispatch('helper/loading')
         this.$store.dispatch('helper/disabling')
       } catch (e) {

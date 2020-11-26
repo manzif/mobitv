@@ -72,8 +72,8 @@ module.exports = {
         endpoints: {
           login: {
             url:
-              'http://tests.mcash.rw/bio-api/standalone/stand_agent_login.php',
-            method: 'get'
+              'http://52.36.87.202/mobicash/client/rest/0.0.1/authentification/',
+            method: 'post'
           },
           logout: false,
           user: false

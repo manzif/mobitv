@@ -79,7 +79,6 @@ export default {
       title: null
     }
   },
-  middleware: ['check-auth'],
   computed: {
     authUser() {
       return this.$store.getters['users/loggedInUser']

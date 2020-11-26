@@ -72,9 +72,7 @@ export default {
       this.$store.dispatch('helper/loading')
       this.$store.dispatch('helper/disabling')
       try {
-        await this.$store.dispatch('electricity/getElectricity', {
-          meterNumber: this.meterNumber
-        })
+        await this.$store.dispatch('endpoint/createEndpoint')
         this.$store.dispatch('helper/loading')
         this.$store.dispatch('helper/disabling')
         this.title = null

@@ -12,21 +12,39 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ commit }, { phoneNumber, pin }) {
+  async login({ commit }, { principal, pin }) {
     try {
-      const response = await this.$auth.loginWith('local', {
-        params: { principal_type: 'mobilePhone', principal: phoneNumber, pin }
-      })
-      if (response.data.result === 'Success') {
-        await this.$auth.setUser(response.data.details)
-        await this.$auth.$storage.setLocalStorage(
-          'userMobitv',
-          response.data.details
-        )
-        await this.$auth.$storage.setCookie('userMobitv', response.data.details)
-        commit('SET_USER', response.data.details)
-        await this.$router.push('/')
-      }
+      console.log('\n\n\n\n\n', principal)
+      const { data } = await this.$axios.post(
+        'http://52.36.87.202/mobicash/client/rest/0.0.1/authentification',
+        {
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          },
+          principal,
+          principalType: 'USER',
+          pin
+        }
+      )
+      console.log('\n\n\n\n\n', data)
+      // const response = await this.$auth.loginWith('local', {
+      //   data: {
+      //     principalType: 'USER',
+      //     principal,
+      //     pin
+      //   }
+      // })
+      // console.log('\n\n\n\n', response)
+      // if (response.data.result === 'Success') {
+      //   await this.$auth.setUser(response.data.details)
+      //   await this.$auth.$storage.setLocalStorage(
+      //     'userMobitv',
+      //     response.data.details
+      //   )
+      //   await this.$auth.$storage.setCookie('userMobitv', response.data.details)
+      //   commit('SET_USER', response.data.details)
+      //   await this.$router.push('/')
+      // }
     } catch (error) {
       this.dispatch('helper/showingMessage', {
         visible: true,

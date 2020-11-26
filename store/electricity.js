@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 export const actions = {
-  async getElectricity({ commit }, { meterNumber }) {
+  async getElectricity({ commit }, meterNumber) {
     try {
       const { data } = await this.$axios.get(
         'https://app.mcash.rw/electricity/getMeterNumberDetails.php',
@@ -9,7 +9,6 @@ export const actions = {
           params: { meterNumber }
         }
       )
-      console.log('\n\n\n\n\n', data)
       if (data.message === 'Meter number found') {
         await this.$router.push({
           name: 'electricity-amount',

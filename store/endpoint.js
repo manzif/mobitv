@@ -57,25 +57,26 @@ export const actions = {
       return e
     }
   },
-  async createEndpoint({ commit }, { name, description, type, body, url }) {
+  async createEndpoint({ commit }) {
     try {
-      const { data } = await this.$axios.post('endpoints', {
-        name,
-        description,
-        url,
-        body,
-        type
-      })
+      console.log('\n\n\n', 'ndi hano')
+      const { data } = await this.$axios.post(
+        'http://52.36.87.202/mobicash/services/rest/0.0.1/nidValidation',
+        {
+          nid: '1197780022519037',
+          paymentYear: '2020'
+        }
+      )
       console.log('\n\n\n\n\n', data)
-      if (data.message === 'Endpoint successfully created') {
-        this.dispatch('endpoint/fetchEndpoints')
-        await this.$router.push('/view-endpoints')
-        this.dispatch('helper/showingMessage', {
-          visible: true,
-          type: 'success',
-          message: data.message
-        })
-      }
+      // if (data.message === 'Endpoint successfully created') {
+      //   this.dispatch('endpoint/fetchEndpoints')
+      //   await this.$router.push('/view-endpoints')
+      //   this.dispatch('helper/showingMessage', {
+      //     visible: true,
+      //     type: 'success',
+      //     message: data.message
+      //   })
+      // }
     } catch (error) {
       this.dispatch('helper/showingMessage', {
         visible: true,
