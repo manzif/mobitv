@@ -11,7 +11,7 @@
                   <v-list-item-content class="pb-0 mb-0">
                     <h4 class="pb-2">Wallet</h4>
                     <v-list-item-title class="headline">{{
-                      userInfo.details.float
+                      authUser.balance
                     }}</v-list-item-title>
                   </v-list-item-content>
 

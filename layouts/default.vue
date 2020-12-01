@@ -15,7 +15,7 @@
 
         <v-spacer />
 
-        <span>{{ userInfo.details.agentName }}</span>
+        <span>{{ authUser.clientName }}</span>
         <v-badge avatar bordered overlap>
           <template v-slot:badge>
             <v-avatar>
@@ -53,7 +53,6 @@ import { mapGetters } from 'vuex'
 import VFooter from '@/components/VFooter'
 import UserDropdown from '@/components/UserDropdown'
 import NavigationDrawer from '@/components/NavigationDrawer'
-import userData from '@/assets/users.json'
 export default {
   components: {
     VFooter,
@@ -79,6 +78,7 @@ export default {
       title: null
     }
   },
+  middleware: ['auth', 'check-auth'],
   computed: {
     authUser() {
       return this.$store.getters['users/loggedInUser']
@@ -86,10 +86,7 @@ export default {
     ...mapGetters({
       isMessageVisible: 'helper/isMessageVisible',
       isMessage: 'helper/isMessage'
-    }),
-    userInfo() {
-      return userData
-    }
+    })
   },
   watch: {
     $route(val) {

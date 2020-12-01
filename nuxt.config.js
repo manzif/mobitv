@@ -72,7 +72,7 @@ module.exports = {
         endpoints: {
           login: {
             url:
-              'http://52.36.87.202/mobicash/client/rest/0.0.1/authentification/',
+              'http://52.36.87.202/mobicash/client/rest/0.0.1/authentification',
             method: 'post'
           },
           logout: false,

@@ -11,7 +11,7 @@
           <img src="~/static/images/defaultProfile.png" alt="John" />
         </v-avatar>
 
-        <v-list-item-title>@{{ userInfo.details.agentName }}</v-list-item-title>
+        <v-list-item-title>@{{ authUser.clientNumber }}</v-list-item-title>
 
         <v-btn @click.stop="mini = !mini" icon>
           <v-icon>mdi-chevron-left</v-icon>
