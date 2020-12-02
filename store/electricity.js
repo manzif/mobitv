@@ -3,16 +3,16 @@
 export const actions = {
   async getElectricity({ commit }, meterNumber) {
     try {
-      const { data } = await this.$axios.get(
-        'https://app.mcash.rw/electricity/getMeterNumberDetails.php',
+      const { data } = await this.$axios.post(
+        'http://52.36.87.202/mobicash/services/rest/0.0.1/cashPowerMeterNumberValidation',
         {
-          params: { meterNumber }
+          meterNumber
         }
       )
-      if (data.message === 'Meter number found') {
+      if (data.responseCode === 200) {
         await this.$router.push({
           name: 'electricity-amount',
-          params: { clientName: data.clientName, meterNumber: data.meterNumber }
+          params: { clientName: data.consumer.customerName, meterNumber }
         })
         this.dispatch('helper/showingMessage', {
           visible: true,
@@ -20,13 +20,56 @@ export const actions = {
           message: 'Please check the meter number and provide the amount.'
         })
       }
-      if (data.statusCode === '0') {
+      if (data.responseCode === 400) {
         this.dispatch('helper/showingMessage', {
           visible: true,
           type: 'error',
-          message: 'Meter Number not found. Try again'
+          message:
+            'Meter Number must at least 10 characters, and does not contain any letter'
         })
       }
+    } catch (error) {
+      this.dispatch('helper/showingMessage', {
+        visible: true,
+        type: 'error',
+        message: 'Please contact Yves from Mobicash. There is a network error'
+      })
+    }
+  },
+
+  async payElectricity({ commit }, { meterNumber, amount, msisdn, clientId }) {
+    console.log('\n\n\n', amount)
+    try {
+      const { data } = await this.$axios.post(
+        'http://52.36.87.202/mobicash/services/rest/0.0.1/buyElectricity',
+        {
+          meterNumber,
+          amount,
+          msisdn,
+          clientId
+        }
+      )
+
+      console.log('\n\n\n\n\n', data)
+      // if (data.responseCode === 200) {
+      //   await this.$router.push({
+      //     name: 'electricity-amount',
+      //     params: { clientName: data.consumer.customerName, meterNumber }
+      //   })
+      //   this.dispatch('helper/showingMessage', {
+      //     visible: true,
+      //     type: 'success',
+      //     message: 'Please check the meter number and provide the amount.'
+      //   })
+      // }
+      // if (data.responseCode === 400) {
+      //   this.dispatch('helper/showingMessage', {
+      //     visible: true,
+      //     type: 'error',
+      //     message:
+      //       'Meter Number must at least 10 characters, and does not contain any letter'
+      //   })
+      // }
     } catch (error) {
       this.dispatch('helper/showingMessage', {
         visible: true,

@@ -23,7 +23,6 @@
             </v-flex>
             <v-flex xs12 md12>
               <v-text-field
-                v-model="name"
                 :label="clientName"
                 required
                 dense
@@ -45,7 +44,7 @@
             <v-flex xs12 md12>
               <v-text-field
                 v-model="amount"
-                :rules="[(v) => !!v || 'Amount is required']"
+                :rules="amountRules"
                 label="Amount"
                 required
                 dense
@@ -54,7 +53,14 @@
               ></v-text-field>
             </v-flex>
             <v-flex xs12 md12>
-              <v-btn to="/receipt" color="primary" block>Submit</v-btn>
+              <v-btn
+                :loading="isLoading"
+                :disabled="isFormValid"
+                @click="payElectricity"
+                color="primary"
+                block
+                >Buy</v-btn
+              >
             </v-flex>
           </v-form>
         </v-col>
@@ -63,14 +69,19 @@
   </v-container>
 </template>
 <script>
-import meterData from '@/assets/meteramount.json'
 export default {
   data() {
     return {
       clientName: '',
       amount: '',
       isFormValid: false,
-      meterNumber: ''
+      amountRules: [
+        (v) => !!v || 'Amount is required',
+        (v) => v > 100 || 'Amount must be more than 100',
+        (v) => v < 500000 || 'Amount must be less than 500 000'
+      ],
+      meterNumber: '',
+      lazy: false
     }
   },
   computed: {
@@ -80,11 +91,8 @@ export default {
     isDisabled() {
       return this.$store.getters['helper/isDisabled']
     },
-    meterInfo() {
-      return meterData
-    },
-    infoMeter() {
-      return this.$store.getters['electricity/userMeter']
+    authUser() {
+      return this.$store.getters['users/loggedInUser']
     }
   },
   created() {
@@ -93,6 +101,32 @@ export default {
     }
     if (this.$route.params.meterNumber) {
       this.meterNumber = this.$route.params.meterNumber
+    }
+  },
+  methods: {
+    async payElectricity() {
+      this.$store.dispatch('helper/loading')
+      this.$store.dispatch('helper/disabling')
+      try {
+        console.log('\n\n\n', this.authUser)
+        // const userData = {
+        //   meterNumber: this.$route.params.meterNumber,
+        //   clientId: this.authUser.clientId,
+        //   msisdn: this.authUser.msisdn,
+        //   amount: this.amount
+        // }
+        await this.$store.dispatch('electricity/payElectricity', {
+          meterNumber: this.$route.params.meterNumber,
+          clientId: this.authUser.clientId,
+          msisdn: this.authUser.clientNumber,
+          amount: this.amount
+        })
+        this.$store.dispatch('helper/loading')
+        this.$store.dispatch('helper/disabling')
+        this.amount = null
+      } catch (e) {
+        return e
+      }
     }
   }
 }
