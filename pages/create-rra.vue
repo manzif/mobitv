@@ -23,7 +23,7 @@
             </v-flex>
             <v-flex xs12 md12>
               <v-text-field
-                v-model="title"
+                v-model="rraRef"
                 :rules="[(v) => !!v || 'Declaration Id is required']"
                 label="Declaration Id"
                 required
@@ -33,7 +33,14 @@
               ></v-text-field>
             </v-flex>
             <v-flex xs12 md12>
-              <v-btn to="/rra-amount" color="primary" block>Submit</v-btn>
+              <v-btn
+                :loading="isLoading"
+                :disabled="isDisabled"
+                @click="docIdValidation"
+                color="primary"
+                block
+                >Submit</v-btn
+              >
             </v-flex>
           </v-form>
         </v-col>
@@ -45,11 +52,9 @@
 export default {
   data() {
     return {
-      title: '',
-      userName: '',
+      rraRef: '',
       isFormValid: false,
-      description: '',
-      userId: ''
+      lazy: false
     }
   },
   computed: {
@@ -61,22 +66,14 @@ export default {
     }
   },
   methods: {
-    async createApp() {
+    async docIdValidation() {
       this.$store.dispatch('helper/loading')
       this.$store.dispatch('helper/disabling')
       try {
-        await this.$store.dispatch('app/createApp', {
-          title: this.title,
-          userName: this.userName,
-          userId: this.userId,
-          description: this.description
-        })
+        const rraRef = this.rraRef
+        await this.$store.dispatch('rra/docIdValidation', rraRef)
         this.$store.dispatch('helper/loading')
         this.$store.dispatch('helper/disabling')
-        this.title = null
-        this.userId = null
-        this.userName = null
-        this.description = null
       } catch (e) {
         return e
       }

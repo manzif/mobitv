@@ -1,7 +1,6 @@
 const colors = require('vuetify/es5/util/colors').default
 
 module.exports = {
-  mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -58,6 +57,7 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
+
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
@@ -65,7 +65,6 @@ module.exports = {
     '@nuxtjs/proxy',
     ['vuetify-dialog/nuxt', { property: '$dialog' }]
   ],
-
   auth: {
     strategies: {
       local: {

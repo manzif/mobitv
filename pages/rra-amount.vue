@@ -23,22 +23,7 @@
                         Declaration Id
                       </div>
                       <v-text-field
-                        v-model="Name"
-                        label="1221123412"
-                        disabled
-                        required
-                        dense
-                        single-line
-                        outlined
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex xs12 md6>
-                      <div class="subtitle-1 grey--text pb-1">
-                        RRRA Reference Number
-                      </div>
-                      <v-text-field
-                        v-model="lastName"
-                        label="1199580042383"
+                        :label="declarationId"
                         disabled
                         required
                         dense
@@ -49,8 +34,7 @@
                     <v-flex xs12 md6>
                       <div class="subtitle-1 grey--text pb-1">Tin Number</div>
                       <v-text-field
-                        v-model="username"
-                        label="12300"
+                        :label="tinNumber"
                         disabled
                         dense
                         single-line
@@ -62,8 +46,7 @@
                         Tax Payer Name
                       </div>
                       <v-text-field
-                        v-model="email"
-                        label="Manzi Fabrice"
+                        :label="taxPayerName"
                         disabled
                         dense
                         single-line
@@ -72,11 +55,10 @@
                     </v-flex>
                     <v-flex xs12 md6>
                       <div class="subtitle-1 grey--text text--primary pb-1">
-                        Amount to Pau
+                        Amount to Pay
                       </div>
                       <v-text-field
-                        v-model="companyName"
-                        label="12300"
+                        :label="amount"
                         dense
                         disabled
                         single-line
@@ -88,8 +70,7 @@
                         Declaration Date
                       </div>
                       <v-text-field
-                        v-model="companyName"
-                        label="10/13/2020"
+                        :label="date"
                         disabled
                         dense
                         single-line
@@ -98,24 +79,12 @@
                     </v-flex>
                     <v-flex xs12 md6>
                       <div class="subtitle-1 grey--text text--primary pb-1">
-                        Client Phone Number
+                        Tax Description
                       </div>
                       <v-text-field
-                        v-model="companyName"
-                        label="078435343"
+                        :label="taxDescription"
                         dense
                         disabled
-                        single-line
-                        outlined
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex xs12 md6>
-                      <div class="subtitle-1 grey--text pb-1">Pin</div>
-                      <v-text-field
-                        v-model="pin"
-                        :label="Pin"
-                        :rules="[(v) => !!v || 'Pin is required']"
-                        dense
                         single-line
                         outlined
                       ></v-text-field>
@@ -124,7 +93,14 @@
                       <v-btn color="cancel" block>Cancel</v-btn>
                     </v-flex>
                     <v-flex xs12 md6>
-                      <v-btn color="primary" block>Submit</v-btn>
+                      <v-btn
+                        :loading="isLoading"
+                        :disabled="isDisabled"
+                        @click="payRRA"
+                        color="primary"
+                        block
+                        >Submit</v-btn
+                      >
                     </v-flex>
                   </v-layout>
                 </v-form>
@@ -140,42 +116,16 @@
 export default {
   data: () => ({
     isFormValid: false,
-    firstName: '',
-    companyName: '',
-    companyId: '',
-    companySector: '',
-    lastName: '',
-    username: '',
-    callBackUrl: '',
-    name: '',
-    nameRules: [
-      (v) => !!v || 'Name is required',
-      (v) => (v && v.length <= 10) || 'Name must be less than 10 characters'
-    ],
-    email: '',
-    companyRegistrationNumber: '',
-    companyRegistrationNumberRules: [
-      (v) => !!v || 'Company registration number',
-      (v) => (v && v.length <= 10) || 'must be less than 10 characters'
-    ],
-    emailRules: [
-      (v) => !!v || 'E-mail is required',
-      (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-    ],
-    selectedSector: null,
-    sectors: ['E-commerce', 'Online delivery', 'Online store'],
-    lazy: false
+    lazy: false,
+    declarationId: '',
+    referenceNumber: '',
+    tinNumber: '',
+    taxPayerName: '',
+    amount: '',
+    date: '',
+    taxDescription: ''
   }),
   computed: {
-    companyNam() {
-      return this.$store.getters['users/companyName']
-    },
-    companyI() {
-      return this.$store.getters['users/companyId']
-    },
-    companySecto() {
-      return this.$store.getters['users/companySector']
-    },
     isLoading() {
       return this.$store.getters['helper/isLoading']
     },
@@ -187,52 +137,43 @@ export default {
     },
     isProgressLoader() {
       return this.$store.getters['helper/isProgressLoader']
-    },
-    userProfile() {
-      return this.$store.getters['users/userProfile']
+    }
+  },
+  created() {
+    if (this.$route.params.data) {
+      this.declarationId = this.$route.params.data.DEC_ID
+      this.referenceNumber = this.$route.params.data.RRA_REF
+      this.tinNumber = this.$route.params.data.TIN
+      this.taxPayerName = this.$route.params.data.TAX_PAYER_NAME
+      this.amount = this.$route.params.data.AMOUNT_TO_PAY
+      this.date = this.$route.params.data.DEC_DATE
+      this.taxDescription = this.$route.params.data.TAX_TYPE_DESC
+    } else {
+      this.$router.push('/')
     }
   },
   methods: {
-    validate() {
-      this.$refs.form.validate()
-    },
-    reset() {
-      this.$refs.form.reset()
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation()
-    },
-    checkEmpty(value, field) {
-      if (!value.trim()) {
-        this.field = this.userProfile.firstName
-      }
-    },
-    async profileEdit(id) {
+    async payRRA() {
       this.$store.dispatch('helper/loading')
+      this.$store.dispatch('helper/disabling')
       try {
-        const personalData = {
-          username: this.username,
-          email: this.email
-        }
-        const userData = {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          callBackUrl: this.callBackUrl
-        }
-        id = this.authUser._id
-        await this.$store.dispatch('users/profileEdit', {
-          userData
-        })
-        await this.$store.dispatch('users/personalEdit', {
-          id,
-          personalData
+        await this.$store.dispatch('rra/payRRA', {
+          clientId: this.authUser.clientId,
+          clientPhone: this.authUser.clientNumber,
+          bankName: this.$route.params.data.bank_name,
+          referenceNumber: this.referenceNumber,
+          taxPayerName: this.taxPayerName,
+          taxDescription: this.taxDescription,
+          taxCenterNumber: this.$route.params.data.TAX_CENTRE_NO,
+          taxTypeNumber: this.$route.params.data.TAX_TYPE_NO,
+          assessNumber: this.$route.params.data.ASSESS_NO,
+          rraOriginNumber: this.$route.params.data.RRA_ORIGIN_NO,
+          declarationId: this.declarationId,
+          amount: this.amount,
+          tinNumber: this.tinNumber
         })
         this.$store.dispatch('helper/loading')
-        this.firstName = null
-        this.lastName = null
-        this.companyName = null
-        this.companySector = null
-        this.companyId = null
+        this.$store.dispatch('helper/disabling')
       } catch (e) {
         return e
       }
