@@ -21,8 +21,7 @@
                     <v-flex xs12 md6>
                       <div class="subtitle-1 grey--text pb-1">Name</div>
                       <v-text-field
-                        v-model="Name"
-                        label="Manzi Fabrice"
+                        :label="names"
                         disabled
                         required
                         dense
@@ -35,8 +34,7 @@
                         House Hold Number
                       </div>
                       <v-text-field
-                        v-model="lastName"
-                        label="11995800423834276"
+                        :label="nid"
                         disabled
                         required
                         dense
@@ -49,8 +47,7 @@
                         Total Premium
                       </div>
                       <v-text-field
-                        v-model="username"
-                        label="12300"
+                        :label="totalPremium"
                         disabled
                         dense
                         single-line
@@ -62,8 +59,7 @@
                         Already Payed
                       </div>
                       <v-text-field
-                        v-model="email"
-                        label="0"
+                        :label="alreadyPaid"
                         disabled
                         dense
                         single-line
@@ -75,29 +71,43 @@
                         Pay Phone number
                       </div>
                       <v-text-field
-                        v-model="companyName"
-                        label="07856585"
+                        :label="clientPhone"
                         dense
                         single-line
                         outlined
                       ></v-text-field>
                     </v-flex>
                     <v-flex xs12 md6>
-                      <div class="subtitle-1 grey--text pb-1">Pin</div>
+                      <div class="subtitle-1 grey--text pb-1">invoice</div>
                       <v-text-field
-                        v-model="pin"
-                        :label="Pin"
-                        :rules="[(v) => !!v || 'Pin is required']"
+                        :label="invoice"
                         dense
                         single-line
                         outlined
                       ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 md12>
+                      <v-select
+                        v-model="paymentYear"
+                        :rules="[(v) => !!v || 'Year of Payment is required']"
+                        :items="typeItems"
+                        placeholder="Year of Payment"
+                        dense
+                        outlined
+                      ></v-select>
                     </v-flex>
                     <v-flex xs12 md6>
                       <v-btn color="cancel" block>Cancel</v-btn>
                     </v-flex>
                     <v-flex xs12 md6>
-                      <v-btn color="primary" block>Submit</v-btn>
+                      <v-btn
+                        :loading="isLoading"
+                        :disabled="isDisabled"
+                        @click="payCBHI"
+                        color="primary"
+                        block
+                        >Pay</v-btn
+                      >
                     </v-flex>
                   </v-layout>
                 </v-form>
@@ -113,42 +123,17 @@
 export default {
   data: () => ({
     isFormValid: false,
-    firstName: '',
-    companyName: '',
-    companyId: '',
-    companySector: '',
-    lastName: '',
-    username: '',
-    callBackUrl: '',
-    name: '',
-    nameRules: [
-      (v) => !!v || 'Name is required',
-      (v) => (v && v.length <= 10) || 'Name must be less than 10 characters'
-    ],
-    email: '',
-    companyRegistrationNumber: '',
-    companyRegistrationNumberRules: [
-      (v) => !!v || 'Company registration number',
-      (v) => (v && v.length <= 10) || 'must be less than 10 characters'
-    ],
-    emailRules: [
-      (v) => !!v || 'E-mail is required',
-      (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-    ],
-    selectedSector: null,
-    sectors: ['E-commerce', 'Online delivery', 'Online store'],
-    lazy: false
+    lazy: false,
+    alreadyPaid: '',
+    names: '',
+    totalPremium: '',
+    clientPhone: '',
+    typeItems: ['2020', '2021'],
+    invoice: '',
+    nid: '',
+    paymentYear: ''
   }),
   computed: {
-    companyNam() {
-      return this.$store.getters['users/companyName']
-    },
-    companyI() {
-      return this.$store.getters['users/companyId']
-    },
-    companySecto() {
-      return this.$store.getters['users/companySector']
-    },
     isLoading() {
       return this.$store.getters['helper/isLoading']
     },
@@ -160,52 +145,42 @@ export default {
     },
     isProgressLoader() {
       return this.$store.getters['helper/isProgressLoader']
-    },
-    userProfile() {
-      return this.$store.getters['users/userProfile']
+    }
+  },
+  created() {
+    if (this.$route.params.data) {
+      this.alreadyPaid = JSON.stringify(
+        this.$route.params.data.rssbRssbResponse.alreadyPaid
+      )
+      this.names = this.$route.params.data.rssbRssbResponse.name
+      this.nid = this.$route.params.data.rssbRssbResponse.householdNID
+      this.totalPremium = JSON.stringify(
+        this.$route.params.data.rssbRssbResponse.totalPremium
+      )
+      this.invoice = JSON.stringify(
+        this.$route.params.data.rssbRssbResponse.invoice
+      )
+      this.clientPhone = this.authUser.clientNumber
+    } else {
+      this.$router.push('/')
     }
   },
   methods: {
-    validate() {
-      this.$refs.form.validate()
-    },
-    reset() {
-      this.$refs.form.reset()
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation()
-    },
-    checkEmpty(value, field) {
-      if (!value.trim()) {
-        this.field = this.userProfile.firstName
-      }
-    },
-    async profileEdit(id) {
+    async payCBHI() {
       this.$store.dispatch('helper/loading')
+      this.$store.dispatch('helper/disabling')
       try {
-        const personalData = {
-          username: this.username,
-          email: this.email
-        }
-        const userData = {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          callBackUrl: this.callBackUrl
-        }
-        id = this.authUser._id
-        await this.$store.dispatch('users/profileEdit', {
-          userData
-        })
-        await this.$store.dispatch('users/personalEdit', {
-          id,
-          personalData
+        await this.$store.dispatch('cbhi/payCBHI', {
+          clientId: this.authUser.clientId,
+          clientPhone: this.authUser.clientNumber,
+          name: this.names,
+          invoice: this.invoice,
+          amountPaid: this.alreadyPaid,
+          paymentYear: this.paymentYear,
+          nid: this.nid
         })
         this.$store.dispatch('helper/loading')
-        this.firstName = null
-        this.lastName = null
-        this.companyName = null
-        this.companySector = null
-        this.companyId = null
+        this.$store.dispatch('helper/disabling')
       } catch (e) {
         return e
       }

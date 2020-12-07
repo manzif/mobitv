@@ -11,9 +11,6 @@
             voluptatibus aut animi, quas doloribus, itaque molestiae ipsum
             officia at natus mollitia iure?
           </h4>
-          <!-- <v-btn class="" color="#0087ff" outlined to="/view-apps" nuxt
-            ><v-icon>mdi-play</v-icon> See all applications</v-btn
-          > -->
         </v-col>
         <v-col cols="12" md="5" sm="6">
           <v-form ref="form" v-model="isFormValid" :lazy-validation="lazy">
@@ -23,7 +20,7 @@
             </v-flex>
             <v-flex xs12 md12>
               <v-text-field
-                v-model="title"
+                v-model="nid"
                 :rules="[(v) => !!v || 'House Hold Number is required']"
                 label="House Hold"
                 required
@@ -34,7 +31,7 @@
             </v-flex>
             <v-flex xs12 md12>
               <v-select
-                v-model="type"
+                v-model="paymentYear"
                 :rules="[(v) => !!v || 'Year of Payment is required']"
                 :items="typeItems"
                 placeholder="Year of Payment"
@@ -43,7 +40,14 @@
               ></v-select>
             </v-flex>
             <v-flex xs12 md12>
-              <v-btn to="/cbhi-amount" color="primary" block>Submit</v-btn>
+              <v-btn
+                :loading="isLoading"
+                :disabled="!isFormValid"
+                @click="nidValidation"
+                color="primary"
+                block
+                >Submit</v-btn
+              >
             </v-flex>
           </v-form>
         </v-col>
@@ -55,12 +59,11 @@
 export default {
   data() {
     return {
-      title: '',
-      userName: '',
+      nid: '',
+      paymentYear: '',
       isFormValid: false,
-      typeItems: ['2019', '2020', '2021'],
-      description: '',
-      userId: ''
+      typeItems: ['2020', '2021'],
+      lazy: false
     }
   },
   computed: {
@@ -72,22 +75,16 @@ export default {
     }
   },
   methods: {
-    async createApp() {
+    async nidValidation() {
       this.$store.dispatch('helper/loading')
       this.$store.dispatch('helper/disabling')
       try {
-        await this.$store.dispatch('app/createApp', {
-          title: this.title,
-          userName: this.userName,
-          userId: this.userId,
-          description: this.description
+        await this.$store.dispatch('cbhi/nidValidation', {
+          nid: this.nid,
+          paymentYear: this.paymentYear
         })
         this.$store.dispatch('helper/loading')
         this.$store.dispatch('helper/disabling')
-        this.title = null
-        this.userId = null
-        this.userName = null
-        this.description = null
       } catch (e) {
         return e
       }
