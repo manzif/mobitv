@@ -37,7 +37,7 @@
             <v-flex xs12 md12>
               <v-btn
                 :loading="isLoading"
-                :disabled="isDisabled"
+                :disabled="!isFormValid"
                 @click="getElectricity"
                 color="primary"
                 block

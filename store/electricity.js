@@ -38,7 +38,6 @@ export const actions = {
   },
 
   async payElectricity({ commit }, { meterNumber, amount, msisdn, clientId }) {
-    console.log('\n\n\n', amount)
     try {
       const { data } = await this.$axios.post(
         'http://52.36.87.202/mobicash/services/rest/0.0.1/buyElectricity',
@@ -49,27 +48,24 @@ export const actions = {
           clientId
         }
       )
-
-      console.log('\n\n\n\n\n', data)
-      // if (data.responseCode === 200) {
-      //   await this.$router.push({
-      //     name: 'electricity-amount',
-      //     params: { clientName: data.consumer.customerName, meterNumber }
-      //   })
-      //   this.dispatch('helper/showingMessage', {
-      //     visible: true,
-      //     type: 'success',
-      //     message: 'Please check the meter number and provide the amount.'
-      //   })
-      // }
-      // if (data.responseCode === 400) {
-      //   this.dispatch('helper/showingMessage', {
-      //     visible: true,
-      //     type: 'error',
-      //     message:
-      //       'Meter Number must at least 10 characters, and does not contain any letter'
-      //   })
-      // }
+      if (data.responseCode === 200) {
+        await this.$router.push({
+          name: 'receipt',
+          params: { data }
+        })
+        this.dispatch('helper/showingMessage', {
+          visible: true,
+          type: 'success',
+          message: 'The electricity paid successfuly'
+        })
+      }
+      if (data.responseCode === 400) {
+        this.dispatch('helper/showingMessage', {
+          visible: true,
+          type: 'error',
+          message: 'Check if you have sent all the required details'
+        })
+      }
     } catch (error) {
       this.dispatch('helper/showingMessage', {
         visible: true,

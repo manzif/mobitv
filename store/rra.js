@@ -74,6 +74,10 @@ export const actions = {
         }
       )
       if (data.status === 'PROCESSED') {
+        await this.$router.push({
+          name: 'receipt',
+          params: { data }
+        })
         this.dispatch('helper/showingMessage', {
           visible: true,
           type: 'success',

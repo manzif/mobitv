@@ -55,7 +55,7 @@
             <v-flex xs12 md12>
               <v-btn
                 :loading="isLoading"
-                :disabled="isFormValid"
+                :disabled="!isFormValid"
                 @click="payElectricity"
                 color="primary"
                 block
@@ -101,6 +101,8 @@ export default {
     }
     if (this.$route.params.meterNumber) {
       this.meterNumber = this.$route.params.meterNumber
+    } else {
+      this.$router.push('/')
     }
   },
   methods: {
@@ -108,13 +110,6 @@ export default {
       this.$store.dispatch('helper/loading')
       this.$store.dispatch('helper/disabling')
       try {
-        console.log('\n\n\n', this.authUser)
-        // const userData = {
-        //   meterNumber: this.$route.params.meterNumber,
-        //   clientId: this.authUser.clientId,
-        //   msisdn: this.authUser.msisdn,
-        //   amount: this.amount
-        // }
         await this.$store.dispatch('electricity/payElectricity', {
           meterNumber: this.$route.params.meterNumber,
           clientId: this.authUser.clientId,

@@ -20,7 +20,7 @@
                       <p class="my-0">MobiCash LTD</p>
                       <p class="my-0">TIN No: 101435346</p>
                       <p class="my-0">Tel:(+250)78779745</p>
-                      <p class="my-0">KN 3 Road, Kicukiro District</p>
+                      <p class="my-0">KN 3 Road, Gasabo District</p>
                       <p class="my-0">Remera, Rukili 1, Kigali Rwanda</p>
                     </v-flex>
                     <v-flex xs12 md12 class="mb-2">
@@ -126,37 +126,14 @@ export default {
       return this.$store.getters['users/userProfile']
     }
   },
+  created() {
+    if (this.$route.params.data) {
+      console.log('\n\n\n\n\n', this.$route.params.data)
+    } else {
+      this.$router.push('/')
+    }
+  },
   methods: {
-    async profileEdit(id) {
-      this.$store.dispatch('helper/loading')
-      try {
-        const personalData = {
-          username: this.username,
-          email: this.email
-        }
-        const userData = {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          callBackUrl: this.callBackUrl
-        }
-        id = this.authUser._id
-        await this.$store.dispatch('users/profileEdit', {
-          userData
-        })
-        await this.$store.dispatch('users/personalEdit', {
-          id,
-          personalData
-        })
-        this.$store.dispatch('helper/loading')
-        this.firstName = null
-        this.lastName = null
-        this.companyName = null
-        this.companySector = null
-        this.companyId = null
-      } catch (e) {
-        return e
-      }
-    },
     getPdf(title, isShowPreviewFullTime) {
       // const margins = {
       //   top: 12,
