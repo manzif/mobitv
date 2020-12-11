@@ -18,13 +18,13 @@
         <span>{{ authUser.clientName }}</span>
         <v-badge avatar bordered overlap>
           <template v-slot:badge>
-            <v-avatar>
+            <v-avatar color="#ff8c00">
               <span>1</span>
             </v-avatar>
           </template>
 
           <v-avatar size="35">
-            <v-img src="/images/profile.svg"></v-img>
+            <v-icon>mdi-account-circle-outline</v-icon>
           </v-avatar>
         </v-badge>
 
