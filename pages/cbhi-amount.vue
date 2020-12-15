@@ -197,7 +197,7 @@ export default {
 }
 .line {
   width: 63px;
-  border-bottom: 5px solid #0087ff;
+  border-bottom: 5px solid #ff8c00;
   position: absolute;
 }
 </style>

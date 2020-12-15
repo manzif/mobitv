@@ -3,15 +3,17 @@
     <nav>
       <v-app-bar color="#ff8c00" fixed app light flat>
         <v-spacer />
-
-        <nuxt-link to="/"
+        <marquee behavior="scroll" class="marqueTitle" direction="left"
+          >Accept QR Code payment instantly with Mobicash-TV10 QR</marquee
+        >
+        <!-- <nuxt-link to="/"
           ><v-img
             height="50px"
             width="150px"
             contain
             src="/images/mobich.png"
           ></v-img
-        ></nuxt-link>
+        ></nuxt-link> -->
 
         <v-spacer />
 
@@ -71,16 +73,7 @@ export default {
 }
 </script>
 <style scoped>
-/* background-image: url('~@/static/images/undraw.svg') !important;
-  background-size: cover !important; */
-/* background-color: #0087ff !important; */
-/* background-image: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.9) 75%,
-      #0087ff 25%
-    ),
-    url('~@/static/images/newone.jpg') !important;
-  background-size: cover !important; */
-/* clip-path: polygon(0% 0%, 50% 0, 50% 100%, 0 100%); */
+.marqueTitle {
+  color: #ffffff;
+}
 </style>

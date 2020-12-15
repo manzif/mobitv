@@ -135,11 +135,6 @@ export default {
   },
   methods: {
     getPdf(title, isShowPreviewFullTime) {
-      // const margins = {
-      //   top: 12,
-      //   bottom: 60,
-      //   left: 0
-      // }
       html2Canvas(document.querySelector('#pdfDom'), {
         allowTaint: false,
         useCORS: true
@@ -168,7 +163,7 @@ export default {
 }
 .line {
   width: 63px;
-  border-bottom: 5px solid #98989d;
+  border-bottom: 5px solid #ff8c00;
   position: absolute;
 }
 </style>

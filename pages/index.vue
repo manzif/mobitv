@@ -58,23 +58,23 @@ export default {
       {
         action: '/create-cbhi',
         icon: 'mdi-hospital-marker',
-        message: 'Please use this action to MITUWELI Ubwisungane mu kwivuza',
+        message: 'Please click here to pay MITUWELI',
         image: Mitiweli
       },
       {
-        message: 'Please use this action to pay RRA',
+        message: 'Please click here to pay RRA',
         action: '/create-rra',
         icon: 'mdi-cash-100',
         image: Rra
       },
       {
-        message: 'Please use this action to pay for ELECTRICITY',
+        message: 'Please click here to pay for ELECTRICITY',
         action: '/create-electricity',
         icon: 'mdi-fire-hydrant',
         image: Reg
       },
       {
-        message: 'Please use this action to pay RNIT Iterambere Fund',
+        message: 'Please click here to pay RNIT Iterambere Fund',
         action: '/create-rnit',
         icon: 'fa-users',
         image: Rnit
