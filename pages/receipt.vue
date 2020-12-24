@@ -42,6 +42,16 @@
                     </v-flex>
                     <v-flex xs12 md12>
                       <v-divider></v-divider>
+                    </v-flex>
+                    <v-flex xs12 md12 class="mb-2">
+                      <qrcode-vue
+                        :value="value"
+                        :size="size"
+                        level="H"
+                      ></qrcode-vue>
+                    </v-flex>
+                    <v-flex xs12 md12>
+                      <v-divider></v-divider>
                       <p>
                         Gushora imari yawe mu kigega RNIT ITERAMBERE FUND
                         ukoresheje mobicash biroroshye, bibereye buri wese,
@@ -70,46 +80,19 @@
 <script>
 import JsPDF from 'jspdf'
 import html2Canvas from 'html2canvas'
+import QrcodeVue from 'qrcode.vue'
 export default {
+  components: {
+    QrcodeVue
+  },
   data: () => ({
     isFormValid: false,
-    firstName: '',
-    companyName: '',
     htmlTitle: 'Receipt',
-    companyId: '',
-    companySector: '',
-    lastName: '',
-    username: '',
-    callBackUrl: '',
-    name: '',
-    nameRules: [
-      (v) => !!v || 'Name is required',
-      (v) => (v && v.length <= 10) || 'Name must be less than 10 characters'
-    ],
-    email: '',
-    companyRegistrationNumber: '',
-    companyRegistrationNumberRules: [
-      (v) => !!v || 'Company registration number',
-      (v) => (v && v.length <= 10) || 'must be less than 10 characters'
-    ],
-    emailRules: [
-      (v) => !!v || 'E-mail is required',
-      (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-    ],
-    selectedSector: null,
-    sectors: ['E-commerce', 'Online delivery', 'Online store'],
-    lazy: false
+    lazy: false,
+    value: 'https://example.com',
+    size: 100
   }),
   computed: {
-    companyNam() {
-      return this.$store.getters['users/companyName']
-    },
-    companyI() {
-      return this.$store.getters['users/companyId']
-    },
-    companySecto() {
-      return this.$store.getters['users/companySector']
-    },
     isLoading() {
       return this.$store.getters['helper/isLoading']
     },
@@ -129,8 +112,6 @@ export default {
   created() {
     if (this.$route.params.data) {
       console.log('\n\n\n\n\n', this.$route.params.data)
-    } else {
-      this.$router.push('/')
     }
   },
   methods: {

@@ -31,6 +31,13 @@ export const actions = {
         commit('SET_USER', response.data)
         await this.$router.push('/')
       }
+      if (response.data.responseCode === 400) {
+        this.dispatch('helper/showingMessage', {
+          visible: true,
+          type: 'error',
+          message: response.data.responseDescription
+        })
+      }
     } catch (error) {
       this.dispatch('helper/showingMessage', {
         visible: true,

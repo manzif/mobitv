@@ -5,32 +5,10 @@
         <v-col cols="12" md="9" sm="6">
           <v-card text class="pa-7">
             <v-col cols="12" md="12" sm="6">
-              <h2 class="pb-1" color="#0087ff">Pay RNIT.</h2>
+              <h2 class="pb-1" color="#0087ff">
+                This page is under construction.
+              </h2>
               <div class="line"></div>
-              <h4 class="my-6">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut,
-                suscipit a. Debitis placeat asperiores corrupti dolores? Vel
-                voluptatibus aut animi, quas doloribus, itaque molestiae ipsum
-                officia at natus mollitia iure?
-              </h4>
-            </v-col>
-            <v-col cols="12" md="12" sm="6">
-              <v-form ref="form" v-model="isFormValid" :lazy-validation="lazy">
-                <v-flex xs12 md12>
-                  <v-text-field
-                    v-model="title"
-                    :rules="[(v) => !!v || 'National Id is required']"
-                    label="National Id"
-                    required
-                    dense
-                    single-line
-                    outlined
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 md12>
-                  <v-btn to="/rnit-amount" color="primary" block>Submit</v-btn>
-                </v-flex>
-              </v-form>
             </v-col>
           </v-card>
         </v-col>
