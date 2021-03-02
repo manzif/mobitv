@@ -61,12 +61,12 @@ export const actions = {
     }
   },
 
-  async logout({ commit }) {
+  async logout({ commit }, context) {
     // TODO: implement the logout
     await this.$auth.logout('local')
     await this.$auth.$storage.setLocalStorage('userMobitv', '')
     await this.$auth.$storage.setCookie('userMobitv', '')
-    await this.$router.push('/login')
+    window.location.href = 'https://mobitv.shop/'
   }
 }
 

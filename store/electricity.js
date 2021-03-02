@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 
 export const actions = {
-  async getElectricity({ commit }, meterNumber) {
+  async getElectricity({ commit }, { meterNumber, clientId, msisdn }) {
     try {
       const { data } = await this.$axios.post(
-        'http://52.36.87.202/mobicash/services/rest/0.0.1/cashPowerMeterNumberValidation',
+        'https://client.mobicash.rw/mobicash/services/rest/0.0.1/cashPowerMeterNumberValidation',
         {
           meterNumber
         }
@@ -12,7 +12,12 @@ export const actions = {
       if (data.responseCode === 200) {
         await this.$router.push({
           name: 'electricity-amount',
-          params: { clientName: data.consumer.customerName, meterNumber }
+          params: {
+            clientName: data.consumer.customerName,
+            meterNumber,
+            clientId,
+            msisdn
+          }
         })
         this.dispatch('helper/showingMessage', {
           visible: true,
@@ -32,7 +37,7 @@ export const actions = {
       this.dispatch('helper/showingMessage', {
         visible: true,
         type: 'error',
-        message: 'Please contact Yves from Mobicash. There is a network error'
+        message: error.message
       })
     }
   },
@@ -40,7 +45,7 @@ export const actions = {
   async payElectricity({ commit }, { meterNumber, amount, msisdn, clientId }) {
     try {
       const { data } = await this.$axios.post(
-        'http://52.36.87.202/mobicash/services/rest/0.0.1/buyElectricity',
+        'https://client.mobicash.rw/mobicash/services/rest/0.0.1/buyElectricity',
         {
           meterNumber,
           amount,

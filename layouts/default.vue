@@ -16,7 +16,7 @@
         <v-spacer />
 
         <span>{{ authUser.clientName }}</span>
-        <v-badge avatar bordered overlap>
+        <!-- <v-badge avatar bordered overlap>
           <template v-slot:badge>
             <v-avatar color="#ff8c00">
               <span>1</span>
@@ -26,7 +26,7 @@
           <v-avatar size="35">
             <v-icon>mdi-account-circle-outline</v-icon>
           </v-avatar>
-        </v-badge>
+        </v-badge> -->
 
         <v-menu bottom center>
           <template v-slot:activator="{ on }">
@@ -37,7 +37,7 @@
           <UserDropdown />
         </v-menu>
       </v-app-bar>
-      <NavigationDrawer />
+      <!-- <NavigationDrawer /> -->
     </nav>
     <v-main>
       <nuxt />
@@ -78,7 +78,7 @@ export default {
       title: null
     }
   },
-  middleware: ['auth', 'check-auth'],
+  // middleware: ['auth', 'check-auth'],
   computed: {
     authUser() {
       return this.$store.getters['users/loggedInUser']

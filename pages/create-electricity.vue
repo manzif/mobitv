@@ -61,19 +61,22 @@ export default {
       return this.$store.getters['helper/isDisabled']
     }
   },
+  created() {
+    console.log('\n\n\n', this.$route.query)
+  },
   methods: {
     async getElectricity() {
       this.$store.dispatch('helper/loading')
       this.$store.dispatch('helper/disabling')
       try {
         const meterNumber = this.meterNumber
-        await this.$store.dispatch('electricity/getElectricity', meterNumber)
+        await this.$store.dispatch('electricity/getElectricity', {
+          meterNumber,
+          clientId: this.$route.query.clid,
+          msisdn: this.$route.query.phone
+        })
         this.$store.dispatch('helper/loading')
         this.$store.dispatch('helper/disabling')
-        this.title = null
-        this.userId = null
-        this.userName = null
-        this.description = null
       } catch (e) {
         return e
       }

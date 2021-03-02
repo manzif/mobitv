@@ -108,8 +108,8 @@ export default {
       try {
         await this.$store.dispatch('electricity/payElectricity', {
           meterNumber: this.$route.params.meterNumber,
-          clientId: this.authUser.clientId,
-          msisdn: this.authUser.clientNumber,
+          clientId: this.$route.params.clientId,
+          msisdn: this.$route.params.msisdn,
           amount: this.amount
         })
         this.$store.dispatch('helper/loading')

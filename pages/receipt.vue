@@ -115,7 +115,7 @@ export default {
     }
   },
   methods: {
-    getPdf(title, isShowPreviewFullTime) {
+    getPdf(title) {
       html2Canvas(document.querySelector('#pdfDom'), {
         allowTaint: false,
         useCORS: true
