@@ -1,33 +1,33 @@
 /* eslint-disable no-console */
 
 export const actions = {
-  async nidValidation({ commit }, { nid, paymentYear, clientPhone, clientId }) {
+  async nidValidation({ commit }, { identification }) {
     try {
       const { data } = await this.$axios.post(
-        'https://client.mobicash.rw/mobicash/services/rest/0.0.1/nidValidation',
+        'https://client.mobicash.rw/mobicash/services/rest/0.0.1/ltssnidValidation',
         {
-          nid,
-          paymentYear
+          identification
         }
       )
-      if (data.responseCode === 200) {
-        await this.$router.push({
-          name: 'cbhi-amount',
-          params: { data, clientId, clientPhone }
-        })
-        this.dispatch('helper/showingMessage', {
-          visible: true,
-          type: 'success',
-          message: 'NID is valid'
-        })
-      }
-      if (data.responseCode === 400) {
-        this.dispatch('helper/showingMessage', {
-          visible: true,
-          type: 'error',
-          message: data.rssbResponse.reply
-        })
-      }
+      console.log('\n\n\n', data)
+      //   if (data.responseCode === 200) {
+      //     await this.$router.push({
+      //       name: 'cbhi-amount',
+      //       params: { data, clientId, clientPhone }
+      //     })
+      //     this.dispatch('helper/showingMessage', {
+      //       visible: true,
+      //       type: 'success',
+      //       message: 'NID is valid'
+      //     })
+      //   }
+      //   if (data.responseCode === 400) {
+      //     this.dispatch('helper/showingMessage', {
+      //       visible: true,
+      //       type: 'error',
+      //       message: data.rssbResponse.reply
+      //     })
+      //   }
     } catch (error) {
       this.dispatch('helper/showingMessage', {
         visible: true,

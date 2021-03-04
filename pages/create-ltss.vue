@@ -5,21 +5,22 @@
         <v-col cols="12" md="9" sm="6">
           <v-card text class="pa-7">
             <v-col cols="12" md="12" sm="6">
-              <h2 class="pb-1" color="#0087ff">Pay RRA.</h2>
+              <h2 class="pb-1" color="#0087ff">Pay LTSS.</h2>
               <div class="line"></div>
-              <p class="my-6">
-                To pay RRA, you need to provide the Declaration ID. This must
-                always have 10-16 characters. This field is mandatory, please do
-                not leave it empty.
-              </p>
+              <h4 class="my-6">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut,
+                suscipit a. Debitis placeat asperiores corrupti dolores? Vel
+                voluptatibus aut animi, quas doloribus, itaque molestiae ipsum
+                officia at natus mollitia iure?
+              </h4>
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-form ref="form" v-model="isFormValid" :lazy-validation="lazy">
                 <v-flex xs12 md12>
                   <v-text-field
-                    v-model="rraRef"
-                    :rules="[(v) => !!v || 'Declaration Id is required']"
-                    label="Declaration Id"
+                    v-model="nid"
+                    :rules="[(v) => !!v || 'National Id Number is required']"
+                    label="National Id"
                     required
                     dense
                     single-line
@@ -30,7 +31,7 @@
                   <v-btn
                     :loading="isLoading"
                     :disabled="!isFormValid"
-                    @click="docIdValidation"
+                    @click="nidValidation"
                     color="primary"
                     block
                     >Submit</v-btn
@@ -48,8 +49,10 @@
 export default {
   data() {
     return {
-      rraRef: '',
+      nid: '',
+      paymentYear: '',
       isFormValid: false,
+      typeItems: ['2020', '2021'],
       lazy: false
     }
   },
@@ -61,15 +64,19 @@ export default {
       return this.$store.getters['helper/isDisabled']
     }
   },
+  created() {
+    console.log('\n\n\n', this.$route.query)
+  },
   methods: {
-    async docIdValidation() {
+    async nidValidation() {
       this.$store.dispatch('helper/loading')
       this.$store.dispatch('helper/disabling')
       try {
-        await this.$store.dispatch('rra/docIdValidation', {
-          rraRef: this.rraRef,
-          clientId: this.$route.query.clid,
-          clientPhone: this.$route.query.phone
+        await this.$store.dispatch('ltss/nidValidation', {
+          identification: this.nid
+          //   paymentYear: this.paymentYear,
+          //   clientId: this.$route.query.clid,
+          //   clientPhone: this.$route.query.clientPhone
         })
         this.$store.dispatch('helper/loading')
         this.$store.dispatch('helper/disabling')

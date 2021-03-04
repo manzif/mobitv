@@ -171,8 +171,8 @@ export default {
       this.$store.dispatch('helper/disabling')
       try {
         await this.$store.dispatch('cbhi/payCBHI', {
-          clientId: this.authUser.clientId,
-          clientPhone: this.authUser.clientNumber,
+          clientId: this.$route.params.clientId,
+          clientPhone: this.$route.params.clientPhone,
           name: this.names,
           invoice: this.invoice,
           amountPaid: this.alreadyPaid,

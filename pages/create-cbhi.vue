@@ -74,6 +74,9 @@ export default {
       return this.$store.getters['helper/isDisabled']
     }
   },
+  created() {
+    console.log('\n\n\n', this.$route.query)
+  },
   methods: {
     async nidValidation() {
       this.$store.dispatch('helper/loading')
@@ -81,7 +84,9 @@ export default {
       try {
         await this.$store.dispatch('cbhi/nidValidation', {
           nid: this.nid,
-          paymentYear: this.paymentYear
+          paymentYear: this.paymentYear,
+          clientId: this.$route.query.clid,
+          clientPhone: this.$route.query.clientPhone
         })
         this.$store.dispatch('helper/loading')
         this.$store.dispatch('helper/disabling')

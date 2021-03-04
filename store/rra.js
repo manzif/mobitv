@@ -1,37 +1,37 @@
 /* eslint-disable no-console */
 
 export const actions = {
-  async docIdValidation({ commit }, rraRef) {
+  async docIdValidation({ commit }, { rraRef, clientPhone, clientId }) {
     try {
       const { data } = await this.$axios.post(
-        'http://52.36.87.202/mobicash/services/rest/0.0.1/decValidation',
+        'https://client.mobicash.rw/mobicash/services/rest/0.0.1/decValidation',
         {
           rra_ref: rraRef
         }
       )
-      if (data.statusCode === 200) {
+      if (data.responseCode === 200) {
         await this.$router.push({
           name: 'rra-amount',
-          params: { data }
+          params: { data, clientId, clientPhone }
         })
-        this.dispatch('helper/showingMessage', {
+        return this.dispatch('helper/showingMessage', {
           visible: true,
           type: 'success',
           message: 'Declaration Id is verified, Please proceed for the payment'
         })
       }
       if (data.responseCode === 400) {
-        this.dispatch('helper/showingMessage', {
+        return this.dispatch('helper/showingMessage', {
           visible: true,
           type: 'error',
           message: 'The declaration ID is not valid'
         })
       }
     } catch (error) {
-      this.dispatch('helper/showingMessage', {
+      return this.dispatch('helper/showingMessage', {
         visible: true,
         type: 'error',
-        message: 'Please contact Yves from Mobicash. There is a network error'
+        message: error.message
       })
     }
   },
@@ -56,7 +56,7 @@ export const actions = {
   ) {
     try {
       const { data } = await this.$axios.post(
-        'http://52.36.87.202/mobicash/services/rest/0.0.1/rraTaxPayment',
+        'https://client.mobicash.rw/mobicash/services/rest/0.0.1/rraTaxPayment',
         {
           clientPhone,
           AMOUNT_TO_PAY: amount,
@@ -78,24 +78,31 @@ export const actions = {
           name: 'receipt',
           params: { data }
         })
-        this.dispatch('helper/showingMessage', {
+        return this.dispatch('helper/showingMessage', {
           visible: true,
           type: 'success',
           message: 'Tax Payed successfuly'
         })
       }
+      if (data.status === 'NOT_ENOUGH_CREDITS') {
+        return this.dispatch('helper/showingMessage', {
+          visible: true,
+          type: 'error',
+          message: 'You do not have enough credits. Please recharge again'
+        })
+      }
       if (data.responseCode === 400) {
-        this.dispatch('helper/showingMessage', {
+        return this.dispatch('helper/showingMessage', {
           visible: true,
           type: 'error',
           message: 'Please check if you have provided all the required field'
         })
       }
     } catch (error) {
-      this.dispatch('helper/showingMessage', {
+      return this.dispatch('helper/showingMessage', {
         visible: true,
         type: 'error',
-        message: 'Please contact Mobicash. There is a network error'
+        message: error.message
       })
     }
   }

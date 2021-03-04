@@ -158,8 +158,8 @@ export default {
       this.$store.dispatch('helper/disabling')
       try {
         await this.$store.dispatch('rra/payRRA', {
-          clientId: this.authUser.clientId,
-          clientPhone: this.authUser.clientNumber,
+          clientId: this.$route.params.clientId,
+          clientPhone: this.$route.params.clientPhone,
           bankName: this.$route.params.data.bank_name,
           referenceNumber: this.referenceNumber,
           taxPayerName: this.taxPayerName,

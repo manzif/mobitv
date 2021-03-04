@@ -222,11 +222,6 @@ export default {
           personalData
         })
         this.$store.dispatch('helper/loading')
-        this.firstName = null
-        this.lastName = null
-        this.companyName = null
-        this.companySector = null
-        this.companyId = null
       } catch (e) {
         return e
       }

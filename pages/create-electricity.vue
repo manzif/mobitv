@@ -61,9 +61,6 @@ export default {
       return this.$store.getters['helper/isDisabled']
     }
   },
-  created() {
-    console.log('\n\n\n', this.$route.query)
-  },
   methods: {
     async getElectricity() {
       this.$store.dispatch('helper/loading')
