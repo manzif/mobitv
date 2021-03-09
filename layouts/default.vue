@@ -15,19 +15,6 @@
 
         <v-spacer />
 
-        <span>{{ authUser.clientName }}</span>
-        <!-- <v-badge avatar bordered overlap>
-          <template v-slot:badge>
-            <v-avatar color="#ff8c00">
-              <span>1</span>
-            </v-avatar>
-          </template>
-
-          <v-avatar size="35">
-            <v-icon>mdi-account-circle-outline</v-icon>
-          </v-avatar>
-        </v-badge> -->
-
         <v-menu bottom center>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" icon>
@@ -64,13 +51,6 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-      pages: [
-        { name: 'Home', link: '/' },
-        { name: 'Gallery', link: '/gallery' },
-        { name: 'Blog', link: '/blog' },
-        { name: 'Contact', link: '/contact' },
-        { name: 'Packages', link: '/package' }
-      ],
       miniVariant: false,
       mini: true,
       right: true,

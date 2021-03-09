@@ -3,22 +3,6 @@
     <v-list shaped dense>
       <v-subheader>User</v-subheader>
       <v-list-item-group v-model="item" color="primary">
-        <v-list-item to="/">
-          <v-list-item-icon>
-            <v-icon>fa-home</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <!-- <v-list-item to="/profileview">
-          <v-list-item-icon>
-            <v-icon>fa-user</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Profile</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item> -->
         <v-btn @click="logout" class="mt-2" color="#ff8c00" block text
           ><v-icon>mdi-logout</v-icon>Logout</v-btn
         >
@@ -30,10 +14,7 @@
 /* eslint-disable no-console */
 export default {
   data: () => ({
-    item: 1,
-    items: [
-      { text: 'Logout', icon: 'mdi-logout', link: '/login', action: 'logout' }
-    ]
+    item: 1
   }),
   computed: {
     authUser() {
