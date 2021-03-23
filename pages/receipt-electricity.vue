@@ -34,11 +34,10 @@
                       <v-divider></v-divider>
                     </v-flex>
                     <v-flex xs12 md12 class="mb-2">
-                      <p class="my-0">MobiCash LTD</p>
-                      <p class="my-0">TIN No: 101435346</p>
-                      <p class="my-0">Tel:(+250)78779745</p>
-                      <p class="my-0">KN 3 Road, Kicukiro District</p>
-                      <p class="my-0">Remera, Rukili 1, Kigali Rwanda</p>
+                      <p class="my-0">Token</p>
+                      <p class="my-0">
+                        {{ token }}
+                      </p>
                     </v-flex>
                     <v-flex xs12 md12>
                       <v-divider></v-divider>
@@ -78,6 +77,7 @@ export default {
   data: () => ({
     isFormValid: false,
     htmlTitle: 'Receipt',
+    tokem: '',
     lazy: false,
     value: 'https://example.com',
     size: 100
@@ -97,6 +97,13 @@ export default {
     },
     userProfile() {
       return this.$store.getters['users/userProfile']
+    }
+  },
+  created() {
+    if (this.$route.params.data === undefined) {
+      this.$store.dispatch('users/logout')
+    } else {
+      this.token = this.$route.params.data.response.token
     }
   },
   methods: {

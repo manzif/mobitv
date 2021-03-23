@@ -162,7 +162,7 @@ export default {
       )
       this.clientPhone = this.authUser.clientNumber
     } else {
-      this.$router.push('/')
+      this.$store.dispatch('users/logout')
     }
   },
   methods: {

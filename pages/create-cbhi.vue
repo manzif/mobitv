@@ -75,7 +75,9 @@ export default {
     }
   },
   created() {
-    console.log('\n\n\n', this.$route.query)
+    if (this.$route.query.clid === undefined) {
+      this.$store.dispatch('users/logout')
+    }
   },
   methods: {
     async nidValidation() {

@@ -55,7 +55,7 @@ export const actions = {
       )
       if (data.responseCode === 200) {
         await this.$router.push({
-          name: 'receipt',
+          name: 'receipt-electricity',
           params: { data }
         })
         this.dispatch('helper/showingMessage', {
@@ -75,7 +75,7 @@ export const actions = {
       this.dispatch('helper/showingMessage', {
         visible: true,
         type: 'error',
-        message: 'Please contact Yves from Mobicash. There is a network error'
+        message: error.message
       })
     }
   }

@@ -61,6 +61,11 @@ export default {
       return this.$store.getters['helper/isDisabled']
     }
   },
+  created() {
+    if (this.$route.query.clid === undefined) {
+      this.$store.dispatch('users/logout')
+    }
+  },
   methods: {
     async getElectricity() {
       this.$store.dispatch('helper/loading')
